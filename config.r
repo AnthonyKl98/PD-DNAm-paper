@@ -24,7 +24,7 @@ sexCheck<-TRUE
 snpCheck<-TRUE
 ctCheck<-TRUE
 perMiss<-2
-studentThres<-1
+studentThres<-1.5
 nSDThres<-3
 pnthres<-0.05
 perc<-1
