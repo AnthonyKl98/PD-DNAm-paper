@@ -4,7 +4,7 @@
 ##
 ## Purpose of script: perform DNA methylation association analysis to assess PD and GBA1 main and interaction effects (in cell types separately)
 ##
-## Author: Anthony Klokkaris (adapted from Eilis Hannon's script) 
+## Author: Anthony Klokkaris (adapted from Eilis Hannon) 
 ##
 ##---------------------------------------------------------------------#
 
@@ -12,10 +12,8 @@
 # DEFINE ANALYSIS FUNCTION
 #----------------------------------------------------------------------#
 
-
 diagGBA <- function(row, QCmetrics){
-  
-  
+
   full.model <- lm(row ~ Phenotype*GBA_Status + Phenotype + GBA_Status  + Age + Sex + Institute, data=QCmetrics)
   null.model <- lm(row ~ Phenotype + GBA_Status  + Age + Sex + Institute, data=QCmetrics) 
   
@@ -52,7 +50,7 @@ resPath<-file.path(dataDir, "4_analysis/EWAS/")
 setwd(dataDir)
 load(normData)
 
-#Exclude samples with failed CETYGO check
+#Exclude samples which failed CETYGO check
 QCmetrics <- QCmetrics[!(QCmetrics$Sample_ID %in% c("P94/05_DOUBLE NEG", "P11/17_SOX10 +", "P47/11_SOX10 +", "P24/17_SOX10 +", "P40/17_SOX10 +", "P2/11_SOX10 +", "P79/10_SOX10 +", "P72/12_DOUBLE NEG", "P16/12_SOX10 +", "P73/15_SOX10 +", "19870835_SOX10 +", "20000117_SOX10 +", "20050096_SOX10 +", "20174934_SOX10 +", "20174929_SOX10 +", "20040076_SOX10 +", "19990275_DOUBLE NEG")),]
 
 colnames(QCmetrics)[colnames(QCmetrics) == "Phenotype"] <- "GBA_Status"
@@ -67,7 +65,7 @@ QCmetrics$Age <- as.numeric(QCmetrics$Age)
 QCmetrics$Sex <- factor(QCmetrics$Sex)
 QCmetrics$Institute <- factor(QCmetrics$Institute)
 
-#Cell type: NeuN+, SOX10+ or double negative
+#Cell type: NeuN+, SOX10+ or Double negative
 cellType <- "NeuN+"
 print(paste0("running EWAS on ", cellType, " cell type..."))
 
@@ -104,5 +102,5 @@ columns <- c('_Estimate','_SE','_P')
 output.colnames <- c(paste0('PD:GBA', columns), paste0('PD', columns), paste0('GBA', columns)) #keep in same order as extracted from stats
 colnames(res) <- output.colnames
 
-save(res, file = file.path(resPath, paste0(cellType,"lm_GBAModel_results.rdata")))
-write.csv(res, file = file.path(resPath, paste0(cellType,"lm_GBAModel_results.csv")))
+save(res, file = file.path(resPath, paste0(cellType,"_lm_GBAModel_results.rdata")))
+write.csv(res, file = file.path(resPath, paste0(cellType,"_lm_GBAModel_results.csv")))
