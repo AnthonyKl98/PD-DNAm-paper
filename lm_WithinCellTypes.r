@@ -45,8 +45,8 @@ load(normData)
 QCmetrics <- QCmetrics %>% mutate(Phenotype = ifelse(Phenotype == "PD_GBA" | Phenotype == "PD_nonGBA", "PD", Phenotype))
 QCmetrics <- QCmetrics %>% mutate(Phenotype = ifelse(Phenotype == "Control_GBA" | Phenotype == "Control_nonGBA", "Control", Phenotype))
 
-#Exclude samples which failed CETYGO check
-QCmetrics <- QCmetrics[!(QCmetrics$Sample_ID %in% c("P94/05_DOUBLE NEG", "P11/17_SOX10 +", "P47/11_SOX10 +", "P24/17_SOX10 +", "P40/17_SOX10 +", "P2/11_SOX10 +", "P79/10_SOX10 +", "P72/12_DOUBLE NEG", "P16/12_SOX10 +", "P73/15_SOX10 +", "19870835_SOX10 +", "20000117_SOX10 +", "20050096_SOX10 +", "20174934_SOX10 +", "20174929_SOX10 +", "20040076_SOX10 +", "19990275_DOUBLE NEG")),]
+#Exclude any samples which failed CETYGO check - add samples to exclude here
+QCmetrics <- QCmetrics[!(QCmetrics$Sample_ID %in% c("...")),]
 
 QCmetrics$Phenotype <- factor(QCmetrics$Phenotype)
 QCmetrics$Age <- as.numeric(QCmetrics$Age)
@@ -84,4 +84,5 @@ colnames(outtab)<-c("PD_coeff", "PD_SE", "PD_P")
 
 save(outtab, file = file.path(resPath, paste0(cellType,"_lm_results.rdata")))
 write.csv(outtab, file = file.path(resPath, paste0(cellType,"_lm_results.csv")))
+
 
